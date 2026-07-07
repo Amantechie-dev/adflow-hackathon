@@ -1,26 +1,30 @@
 import os
 import boto3
 from google import genai
+from dotenv import load_dotenv
 
-# 1. Connect to Backblaze B2 using the official S3 Client protocol
+# Automatically look for and read variables from your hidden local .env file
+load_dotenv()
+
+# 1. Securely connect to Backblaze B2 using environment values
 b2_client = boto3.client(
     service_name='s3',
-    endpoint_url='https://s3.eu-central-003.backblazeb2.com',  # Matches your eu-central-003 region
-    aws_access_key_id="003ebf5aca537d90000000001",
-    aws_secret_access_key="K003ACLajqOCVs2PQXTGadGGdviODa4"
+    endpoint_url=os.environ.get("B2_REGION_ENDPOINT"),
+    aws_access_key_id=os.environ.get("B2_KEY_ID"),
+    aws_secret_access_key=os.environ.get("B2_APPLICATION_KEY")
 )
 
-BUCKET_NAME = "aman-adflow"
+BUCKET_NAME = os.environ.get("B2_BUCKET_NAME")
 
-# 2. Configure the new modern Google GenAI client directly
-client = genai.Client(api_key="AQ.Ab8RN6KSlGQWZTaXtIVp8vNeDRYc3JkhdOvGls7VRrjHcWmQVQ")
+# 2. Configure the Google GenAI client securely using the background variable
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 def generate_ad_campaign(product_name):
     print(f"🚀 Starting AI content generation for: {product_name}...")
     
     prompt = f"Write a high-converting, professional social media advertisement copy for {product_name}. Include a catchy headline and relevant hashtags."
     
-    # 3. Generate text copy using the updated official client syntax
+    # 3. Generate text copy using the live active Gemini model
     response = client.models.generate_content(
         model='gemini-2.5-flash',
         contents=prompt,
@@ -43,4 +47,21 @@ def generate_ad_campaign(product_name):
     print(f"\n✅ Success! Ad content saved directly to Backblaze B2 bucket '{BUCKET_NAME}' at path '{file_key}'.")
 
 if __name__ == "__main__":
-    generate_ad_campaign("Neon Cyberpunk Running Sneakers")
+    # The clean, dynamic batch list loops perfectly through the catalog entries
+    campaign_catalog = [
+        "Neon Cyberpunk Running Sneakers",
+        "Retro Futuristic Smart Glasses",
+        "Minimalist Matte Black Wireless Earbuds",
+        "Eco-Friendly Self-Heating Travel Mug"
+    ]
+    
+    print(f"📋 Found {len(campaign_catalog)} products in queue. Beginning batch generation...\n")
+    
+    for product in campaign_catalog:
+        try:
+            generate_ad_campaign(product)
+            print("-" * 50)
+        except Exception as e:
+            print(f"❌ Failed to generate campaign for {product}. Error: {e}")
+            
+    print("\n🏁 All operations completed successfully!")
