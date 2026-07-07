@@ -3,10 +3,10 @@ import boto3
 from google import genai
 from dotenv import load_dotenv
 
-# Automatically look for and read variables from your hidden local .env file
+# Load variables from our secure .env file
 load_dotenv()
 
-# 1. Securely connect to Backblaze B2 using environment values
+# 1. Connect to Backblaze B2 using environment values
 b2_client = boto3.client(
     service_name='s3',
     endpoint_url=os.environ.get("B2_REGION_ENDPOINT"),
@@ -16,7 +16,7 @@ b2_client = boto3.client(
 
 BUCKET_NAME = os.environ.get("B2_BUCKET_NAME")
 
-# 2. Configure the Google GenAI client securely using the background variable
+# 2. Configure the Google GenAI client securely
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 def generate_ad_campaign(product_name):
@@ -47,12 +47,11 @@ def generate_ad_campaign(product_name):
     print(f"\n✅ Success! Ad content saved directly to Backblaze B2 bucket '{BUCKET_NAME}' at path '{file_key}'.")
 
 if __name__ == "__main__":
-    # The clean, dynamic batch list loops perfectly through the catalog entries
+    # The clean, dynamic batch list loops perfectly through your entries
     campaign_catalog = [
         "Neon Cyberpunk Running Sneakers",
         "Retro Futuristic Smart Glasses",
-        "Minimalist Matte Black Wireless Earbuds",
-        "Eco-Friendly Self-Heating Travel Mug"
+        "Minimalist Matte Black Wireless Earbuds"
     ]
     
     print(f"📋 Found {len(campaign_catalog)} products in queue. Beginning batch generation...\n")
