@@ -42,7 +42,7 @@ BUCKET_NAME = os.environ.get("B2_BUCKET_NAME")
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # --- SIDEBAR: CAMPAIGN HISTORY LOG ---
-st.sidebar.title("🗂️ Campaign History")
+st.sidebar.title(" Campaign History")
 
 # Fetch past history entries from database
 conn = sqlite3.connect("campaigns.db")
@@ -56,14 +56,14 @@ if history_records:
     st.sidebar.write("Click a past campaign to review:")
     for record in history_records:
         rec_id, name, copy_text, ts = record
-        if st.sidebar.button(f"📦 {name}\n({ts})", key=f"rec_{rec_id}"):
+        if st.sidebar.button(f" {name}\n({ts})", key=f"rec_{rec_id}"):
             selected_campaign = record
 else:
     st.sidebar.info("No campaigns generated yet! Build your first one below.")
 
 
 # --- MAIN INTERFACE DISPLAY ---
-st.title("🚀 AdFlow Marketing Campaign Generator")
+st.title(" AdFlow Marketing Campaign Generator")
 
 if selected_campaign:
     _, hist_name, hist_copy, hist_ts = selected_campaign
@@ -112,8 +112,8 @@ else:
                     conn.close()
                     
                     # 4. Display live confirmation results
-                    st.success(f"✅ Success! Saved to Backblaze storage and logged in historical directory.")
-                    st.subheader("📋 Generated Ad Copy Output:")
+                    st.success(f" Success! Saved to Backblaze storage and logged in historical directory.")
+                    st.subheader(" Generated Ad Copy Output:")
                     st.markdown(generated_text)
                     
                 except Exception as e:
