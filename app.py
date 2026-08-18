@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configure page settings
-st.set_page_config(page_title="AdFlow Campaign Generator", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="AdFlow Campaign Generator", page_icon="", layout="wide")
 
 # Initialize Database Function
 def init_db():
