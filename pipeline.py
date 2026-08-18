@@ -20,7 +20,7 @@ BUCKET_NAME = os.environ.get("B2_BUCKET_NAME")
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 def generate_ad_campaign(product_name):
-    print(f"🚀 Starting AI content generation for: {product_name}...")
+    print(f" Starting AI content generation for: {product_name}...")
     
     prompt = f"Write a high-converting, professional social media advertisement copy for {product_name}. Include a catchy headline and relevant hashtags."
     
@@ -44,7 +44,7 @@ def generate_ad_campaign(product_name):
         ContentType='text/plain'
     )
     
-    print(f"\n✅ Success! Ad content saved directly to Backblaze B2 bucket '{BUCKET_NAME}' at path '{file_key}'.")
+    print(f"\n Success! Ad content saved directly to Backblaze B2 bucket '{BUCKET_NAME}' at path '{file_key}'.")
 
 if __name__ == "__main__":
     # The clean, dynamic batch list loops perfectly through your entries
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         "Minimalist Matte Black Wireless Earbuds"
     ]
     
-    print(f"📋 Found {len(campaign_catalog)} products in queue. Beginning batch generation...\n")
+    print(f" Found {len(campaign_catalog)} products in queue. Beginning batch generation...\n")
     
     for product in campaign_catalog:
         try:
