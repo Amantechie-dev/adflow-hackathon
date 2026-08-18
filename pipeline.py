@@ -61,6 +61,6 @@ if __name__ == "__main__":
             generate_ad_campaign(product)
             print("-" * 50)
         except Exception as e:
-            print(f"❌ Failed to generate campaign for {product}. Error: {e}")
+            print(f" Failed to generate campaign for {product}. Error: {e}")
             
     print("\n🏁 All operations completed successfully!")
